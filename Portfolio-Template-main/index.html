@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* Base Styles */
+      
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .about-content {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            text-align: left; /* Ensure text is aligned to the left */
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar img {
+            width: 10px;
+            height: 10px;
+            
+        }
+
+        .about-text {
+            flex: 1; /* Make the text take available space */
+        }
+
+        .about-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .about-buttons a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid black;
+            color: black;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .about-buttons a:hover {
+            background-color: black;
+            color: #fff;
+        }
+
+        body.dark .about-buttons a {
+    background-color: #FEBA01;
+    color: #000; /* Black text color */
+    border-color: #000; /* Black border */
+}
+
+body.dark .about-buttons a:hover {
+    background-color: white; /* Black background on hover */
+    color: black; /* White text on hover */
+}
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #d1d1d1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Scroll Progress Bar */
+        #progressBar {
+            height: 4px;
+            background-color:#FEBA01;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            z-index: 1000;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+      
+
+        header.dark {
+            background-color: #1f1f1f;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap:40px;
+        }
+
+        nav ul li button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: black;
+            transition: color 0.3s;
+            padding: 10px;
+        }
+
+        nav ul li button:hover {
+            color: black;
+            
+            border-radius: 5px;
+            background-color: #FEBA01;
+            box-shadow: 2px 2px 5px gray;
+        }
+
+        .toggle-container {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+
+        .toggle-container.dark {
+            background: black;
+        }
+
+        .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left 0.3s;
+        }
+
+        .toggle-container.dark .toggle-circle {
+            left: 26px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+    
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            margin: 20px auto;
+            width: 70%;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dark .card {
+            background-color: #1f1f1f;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .skills-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.skills-bar label {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+.bar-container {
+    flex: 1;
+    height: 20px;
+    background-color: #ddd;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.bar-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--fill);
+    background-color: #FEBA01;
+    border-radius: 5px;
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+.percentage {
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    z-index: 2;
+}
+
+body.dark .bar-container::after {
+    background-color: #FEBA01; /* Yellow for dark mode */
+}
+        .list-item {
+            margin: 10px 0;
+        }
+
+        .list-item strong {
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .dark footer {
+            background-color: #1f1f1f;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="progressBar"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><button onclick="scrollToSection('about')">About</button></li>
+                <li><button onclick="scrollToSection('experience')">Experience</button></li>
+                <li><button onclick="scrollToSection('projects')">Projects</button></li>
+                <li><button onclick="scrollToSection('education')">Education</button></li>
+                <li><button onclick="scrollToSection('skills')">Skills</button></li>
+                <li><button onclick="scrollToSection('contact')">Contact</button></li>
+            </ul>
+        </nav>
+        <div id="themeToggle" class="toggle-container">
+            <div class="toggle-circle"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- About Section -->
+        <div class="card" id="about">
+            <div class="about-content">
+                <div class="">
+                    <img src="muzammil (2).jpeg" height="120px" width="120px" alt="Muzammil">
+                </div>
+                <div class="about-text">
+                    <h1>MOHAMMED MUZAMMIL AHMED</h1>
+                    <p>A versatile professional with a background in engineering and extensive experience as a Full-stack developer. Skilled in designing, implementing, and maintaining Java-based applications, and proficient in utilizing frameworks like Spring and Hibernate,familiar with database technologies like SQL, Mongo DB and front end technologies HTML, CSS, JS and libraries of JS like React JS. Demonstrates strong problem-solving abilities and a collaborative approach to ensure the delivery of high-quality, scalable software solutions..</p>
+                </div>
+            </div>
+            <div class="about-buttons">
+                <a href="https://www.linkedin.com/in/mohammed-muzammil-ahmed-032323211/" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="width: 16px;">
+                    LinkedIn
+                </a>
+                <a href="https://github.com/muzammilahmed10" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" style="width: 16px;">
+                    GitHub
+                </a>
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="card" id="experience">
+            <h2>Course</h2> <hr><br>
+            <p><strong> <li>Advanced Technology Traning Academy(ATTA) </li></strong></p>
+            <p><i><strong>Front End Web Development Intern  May2023 -June2023 </strong></i></p><br>
+            <p>-Skilled Html,CSS and JavaScript demonstrated through practical projects and live sessions 
+                </p> <br>
+            <p>-Created Portfolio showcasing web development expertise..</p>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="card" id="projects">
+            <h2>Projects</h2><hr><br>
+                <li class="list-item;" >
+                   <strong>Employee MANAGEMENT SYSTEM</strong>
+                   <i><p><u>JDBC, SWINGS, SQL | JAN-2025</p></i></u> <br>
+                    <li>Developed a comprehensive  platform using Jdbc, swings, sql
+                        that enables users to browse retrieve, on board, delete and update user data in the SQL database.</li>
+                        <li>Utilized SQL as the database to efficiently store and manage  user data.</li>
+
+                    <!-- <li>Implemented user authentication for secure login and registration, ensuring a personalized shopping
+                        experience. The platform features an intuitive interface, allowing users to easily navigate through
+                        categories and view product details.</li> -->
+
+                        <!-- <li>Utilized SQLite as the database to efficiently store and manage product and user data.</li>
+                        <li>Integrated payment gateway functionality for smooth transaction processing, enhancing overall user
+                            satisfaction and engagement.</li> -->
+                </li><br><hr><hr><hr>
+
+                <li class="list-item;">
+                    
+                    <strong>Task Buddy App</strong>
+                    <p><i><u>ReactJS,Local Storage, CSS | Nov 2024</u></i></p><br>
+                    <li>TaskBuddy is a ReactJS-based task management application that helps users efficiently manage their tasks. The app supports adding, updating, and deleting tasks, with all data stored locally in the browser for persistent usage.
+                        </li>
+                    <pre>Add Tasks: Users can add tasks to their task list.
+Local Storage: Tasks are stored in the browser's local storage for persistence.
+Change Task Status: Mark tasks as complete or incomplete with a single click.
+Delete Individual Tasks: Remove specific tasks from the list.
+Clear All Tasks: Remove all tasks at once (displayed if there is at least one task).
+Dynamic Buttons: Each task has a "Complete" and "Delete" button for easy management.</pre></li>
+                    <!-- <li><strong>Readers and Writers:</strong>  Integrated item readers to read input data from various sources, such as files
+                        or databases, and item writers to persist processed data.</li> -->
+                </li><br> <hr><hr><hr>
+                <li class="list-item">
+                    <strong>QUIZ APP</strong>
+                    <p><u><i> CSS, JavaScript, ReactJS | OCT 2024 </i></u></p> <br>
+                    <li>QuizApp is a ReactJS-based web application that allows users to take assessments by solving multiple-choice questions (MCQs). The application ensures a seamless user experience with validations, scoring, and a final result display.</li>
+                    <pre>
+Option Selection Validation: Users should attempt the question before going to next.
+Dynamic Scoring: Scores are calculated in real-time using score state variable.
+Final Score Display: Once all questions are answered,final score is displayed.
+                    </pre>
+                </li>
+            </li><br> <hr><hr><hr>
+                <li class="list-item">
+                    <strong>DATA_STRUCTURES APP</strong>
+                    <p><u><i>JAva, Swings  | OCT 2024 </i></u></p> <br>
+                    <li>Comprehensive implementation of essential data structures including Arrays, Stack, Queue, Circular Queue, Singly Linked List, and Doubly Linked List.</li>
+                    <li>Developed an intuitive Swing-based GUI to visually demonstrate and interact with these data structures, enhancing understanding and usability.</li>
+                    </li>
+            </ul>
+        </div>
+        
+        <!-- Education Section -->
+        <div class="card" id="education">
+            <h2>Education</h2><hr><br>
+            <ul>
+                <li><strong>Degree:</strong> Bachelor of Engineering in Computer Science Engineering<br><strong>Year:</strong> 2024<br><strong>CGPA:</strong>8.8</li> <br>
+                <li><strong>Intermediate:</strong> In MPC<br><strong>Year:</strong> 2020<br><strong>Percentage:</strong> 9.4</li><br>
+            </ul>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="card" id="skills">
+            <h2>Skills</h2>
+            <hr><br>
+            <div class="skills-bar">
+                <label>Java</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Python</label>
+                <span class="bar-container" style="--fill: 75%;">
+                    <span class="percentage">75%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>HTML5,CSS3 </label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>JavaScript</label>
+                <span class="bar-container" style="--fill: 70%;">
+                    <span class="percentage">70%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>ReactJS</label>
+                <span class="bar-container" style="--fill: 60%;">
+                    <span class="percentage">60%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>SQL</label>
+                <span class="bar-container" style="--fill: 85%;">
+                    <span class="percentage">85%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>MongoDB</label>
+                <span class="bar-container" style="--fill: 60%;">
+                    <span class="percentage">60%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Spring Boot</label>
+                <span class="bar-container" style="--fill: 60%;">
+                    <span class="percentage">60%</span>
+                </span>
+            </div>
+            <!-- <div class="skills-bar">
+                <label>Selenium</label>
+                <span class="bar-container" style="--fill: 70%;">
+                    <span class="percentage">70%</span>
+                </span>
+            </div> -->
+            
+        </div>
+        
+        
+        <!-- Contact Section -->
+        <div class="card" id="contact">
+            <h2>Contact</h2><hr><br>
+            <p>Email: <a href="mailto:tarun@example.com">muzammilahmed2906@gmail.com</a></p>
+            <p>Phone: +91 8179325914</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Mohammed Muzammil Ahmed. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            themeToggle.classList.toggle('dark');
+        });
+
+        // Scroll Progress
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (scrollTop / docHeight) * 100;
+            progressBar.style.width = `${scrolled}%`;
+        });
+
+        // Scroll to Section
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
